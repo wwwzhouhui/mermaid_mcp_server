@@ -1,0 +1,7 @@
+# MCP Mermaid Server 依赖列表
+# 用于不使用 UV 的环境
+
+mcp[cli]>=1.9.3
+requests>=2.31.0
+fastapi>=0.104.0
+uvicorn>=0.24.0
