@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include requirements.txt
+include install.bat
+include install.sh
+include mermaid_mcp_server/README.md

@@ -61,20 +61,25 @@ pip install -r requirements.txt
 ```json
 {
   "mcpServers": {
-    "mermaid-mcp-server": {
-      "command": "uv",
+    "mermaid-mcp-server-png-pdf-jpg-svg": {
+      "command": "uvx",
       "args": [
-        "--directory",
-        "/path/to/mermaid_mcp_server",
-        "run",
-        "python",
-        "main.py"
+        "mermaid-mcp-server-png-pdf-jpg-svg"
       ]
     }
   }
 }
 ```
 
+sse配置
+
+{
+  "mcpServers": {
+    "mermaid-mcp-server-png-pdf-jpg-svg": {
+      "url": "http://127.0.0.1:8003/sse"
+    }
+  }
+}
 
 #### **Cherry Studio配置**
 
@@ -83,19 +88,19 @@ pip install -r requirements.txt
 2. 进入 **设置 → MCP Servers → 添加服务器**
 
 3. 配置参数：
-   - **名称**: `mermaid-mcp-server`
+   - **名称**: `mermaid-mcp-server-png-pdf-jpg-svg`
    - **描述**: `Mermaid图表生成服务`
    - **类型**: `STDIO`
-   - **命令**: `uv`
-   - **参数**: `--directory /path/to/mermaid_mcp_server run main.py`
+   - **命令**: `uvx`
+   - **参数**: `mermaid-mcp-server-png-pdf-jpg-svg
    
 4. 点击保存并启用
 
    详细图解
 
-   ![image-20250721160607340](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/image-20250721160607340.png)
+   ![img](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/QQ_1753102609763.png)
 
-![image-20250721160936563](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/image-20250721160936563.png)
+![img](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/QQ_1753102786420.png)
 
 #### **Claude Desktop配置**
 
@@ -104,13 +109,10 @@ pip install -r requirements.txt
 ```json
 {
   "mcpServers": {
-    "mermaid-mcp-server": {
-      "command": "uv",
+    "mermaid-mcp-server-png-pdf-jpg-svg": {
+      "command": "uvx",
       "args": [
-        "--directory",
-        "/path/to/mermaid_mcp_server", 
-        "run",
-        "main.py"
+        "mermaid-mcp-server-png-pdf-jpg-svg"
       ]
     }
   }
@@ -124,19 +126,14 @@ pip install -r requirements.txt
 
 ```json
 {
-  "mcpServers": [
-    {
-      "name": "mermaid-mcp-server",
-      "command": "uv",
+  "mcpServers": {
+    "mermaid-mcp-server-png-pdf-jpg-svg": {
+      "command": "uvx",
       "args": [
-        "--directory",
-        "/path/to/mermaid_mcp_server",
-        "run", 
-        "python",
-        "main.py"
+        "mermaid-mcp-server-png-pdf-jpg-svg"
       ]
     }
-  ]
+  }
 }
 ```
 
@@ -146,11 +143,6 @@ pip install -r requirements.txt
 #### **STDIO模式（推荐用于桌面客户端）**
 ```bash
 uv run python main.py
-```
-
-#### **SSE模式（推荐用于Web服务）**
-```bash
-uv run python main_sse.py
 ```
 
 
@@ -272,7 +264,7 @@ uv run python main.py
 
 ## 更新说明
 
-2025年7月21日-version 0.1.0：初始版本发布，支持多格式图表转换、语法验证、示例资源功能。
+2025年7月21日-version 0.0.3：初始版本发布，支持多格式图表转换、语法验证、示例资源功能。
 
 ## 项目信息
 

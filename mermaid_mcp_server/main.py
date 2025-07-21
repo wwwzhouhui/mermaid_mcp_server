@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+"""
+MCP Mermaid Server - STDIO 版本
+适用于 Cherry Studio 等客户端的 stdio 模式连接
+"""
+
 import base64
 import logging
 from typing import Any, Dict, Optional
@@ -124,7 +130,8 @@ def convert_mermaid_to_image(
                     "size_bytes": len(response.content),
                     "format": output_format,
                     "theme": theme
-                }
+                },
+                "message": f"成功将 Mermaid 图表转换为 {output_format.upper()} 格式"
             }
             
         except requests.Timeout:
@@ -167,20 +174,7 @@ def _build_api_url(
     width: Optional[int] = None, 
     height: Optional[int] = None
 ) -> str:
-    """
-    构建 mermaid.ink API URL
-    
-    Args:
-        encoded_diagram: Base64 编码的 mermaid 代码
-        output_format: 目标格式 (png/jpg/svg/pdf)
-        theme: 视觉主题
-        background_color: 背景颜色
-        width: 图像宽度
-        height: 图像高度
-        
-    Returns:
-        完整的 API URL
-    """
+    """构建 mermaid.ink API URL"""
     # 根据格式选择不同的端点
     if output_format == "svg":
         base_url = f"https://mermaid.ink/svg/{encoded_diagram}"
@@ -202,11 +196,9 @@ def _build_api_url(
     
     # 背景颜色参数
     if background_color:
-        # 支持十六进制颜色 (FF0000) 和命名颜色 (!white)
         if background_color.startswith("!"):
             params["bgColor"] = background_color
         else:
-            # 移除 # 符号并验证是否为有效的十六进制颜色
             color = background_color.lstrip("#")
             if len(color) == 6 and all(c in "0123456789ABCDEFabcdef" for c in color):
                 params["bgColor"] = color
@@ -253,11 +245,11 @@ def validate_mermaid_syntax(mermaid_code: str) -> Dict[str, Any]:
                 "error": f"编码图表失败：{str(e)}"
             }
         
-        # 使用 SVG 格式进行快速验证（通常最快）
+        # 使用 SVG 格式进行快速验证
         url = f"https://mermaid.ink/svg/{encoded_diagram}"
         
         try:
-            response = requests.head(url, timeout=10)  # 使用 HEAD 请求更快
+            response = requests.head(url, timeout=10)
             
             if response.status_code == 200:
                 return {
@@ -299,27 +291,16 @@ def validate_mermaid_syntax(mermaid_code: str) -> Dict[str, Any]:
 
 @mcp.resource("mermaid://examples/{diagram_type}")
 def get_mermaid_example(diagram_type: str) -> str:
-    """
-    获取不同图表类型的 Mermaid 代码示例。
-    
-    参数:
-        diagram_type: 图表类型（flowchart、sequence、gantt、pie 等）
-    
-    返回:
-        指定图表类型的 Mermaid 代码示例
-    """
+    """获取不同图表类型的 Mermaid 代码示例。"""
     examples = {
-        "flowchart": """
-flowchart TD
+        "flowchart": """flowchart TD
     A[Start] --> B{Is it?}
     B -->|Yes| C[OK]
     C --> D[Rethink]
     D --> B
-    B ---->|No| E[End]
-        """.strip(),
+    B ---->|No| E[End]""",
         
-        "sequence": """
-sequenceDiagram
+        "sequence": """sequenceDiagram
     participant Alice
     participant Bob
     Alice->>John: Hello John, how are you?
@@ -329,11 +310,9 @@ sequenceDiagram
     Note right of John: Rational thoughts <br/>prevail!
     John-->>Alice: Great!
     John->>Bob: How about you?
-    Bob-->>John: Jolly good!
-        """.strip(),
+    Bob-->>John: Jolly good!""",
         
-        "gantt": """
-gantt
+        "gantt": """gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD
     section Section
@@ -341,18 +320,14 @@ gantt
     Another task     :after a1  , 20d
     section Another
     Task in sec      :2014-01-12  , 12d
-    another task      : 24d
-        """.strip(),
+    another task      : 24d""",
         
-        "pie": """
-pie title Pets adopted by volunteers
+        "pie": """pie title Pets adopted by volunteers
     "Dogs" : 386
     "Cats" : 85
-    "Rats" : 15
-        """.strip(),
+    "Rats" : 15""",
         
-        "gitgraph": """
-gitgraph
+        "gitgraph": """gitgraph
     commit
     commit
     branch develop
@@ -362,11 +337,9 @@ gitgraph
     checkout main
     merge develop
     commit
-    commit
-        """.strip(),
+    commit""",
         
-        "mindmap": """
-mindmap
+        "mindmap": """mindmap
   root((mindmap))
     Origins
       Long history
@@ -382,11 +355,9 @@ mindmap
             Argument mapping
     Tools
       Pen and paper
-      Mermaid
-        """.strip(),
+      Mermaid""",
         
-        "class": """
-classDiagram
+        "class": """classDiagram
     class Animal {
         +String name
         +int age
@@ -401,8 +372,7 @@ classDiagram
         +meow()
     }
     Animal <|-- Dog
-    Animal <|-- Cat
-        """.strip()
+    Animal <|-- Cat"""
     }
     
     if diagram_type.lower() in examples:
@@ -425,10 +395,42 @@ def get_supported_options() -> Dict[str, Any]:
         "formats": ["png", "jpg", "svg", "pdf"]
     }
 
-if __name__ == "__main__":
-    # 配置 MCP 服务器设置
-    mcp.settings.host = "0.0.0.0"
-    mcp.settings.port = 8003
+def main():
+    """
+    主入口函数，用于命令行调用
+    """
+    import argparse
+    import os
     
-    # 启动 MCP 服务器（SSE 模式）
-    mcp.run(transport="sse")
+    # 解析命令行参数
+    parser = argparse.ArgumentParser(description="Mermaid MCP Server - 将 Mermaid 图表代码转换为多种格式的图像")
+    parser.add_argument("--transport", choices=["stdio", "sse"], default="stdio", 
+                        help="传输模式: stdio (默认) 或 sse")
+    parser.add_argument("--host", default="0.0.0.0", help="SSE 模式的主机地址 (默认: 0.0.0.0)")
+    parser.add_argument("--port", type=int, default=8003, help="SSE 模式的端口 (默认: 8003)")
+    parser.add_argument("--debug", action="store_true", help="启用调试模式")
+    
+    args = parser.parse_args()
+    
+    # 设置日志级别
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.info("调试模式已启用")
+    
+    # 设置环境变量
+    log_level = os.environ.get("LOG_LEVEL", "INFO").upper()
+    logging.getLogger().setLevel(getattr(logging, log_level))
+    
+    # 配置 MCP 服务器
+    if args.transport == "sse":
+        mcp.settings.host = args.host
+        mcp.settings.port = args.port
+        logger.info(f"启动 SSE 模式服务器，地址: {args.host}:{args.port}")
+    else:
+        logger.info("启动 STDIO 模式服务器")
+    
+    # 运行 MCP 服务器
+    mcp.run(transport=args.transport)
+
+if __name__ == "__main__":
+    main()

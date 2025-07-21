@@ -30,7 +30,7 @@ else
 fi
 
 # 创建项目目录（如果不存在）
-PROJECT_DIR="mcp-mermaid-server"
+PROJECT_DIR="mermaid_mcp_server"
 if [ ! -d "$PROJECT_DIR" ]; then
     echo "📁 创建项目目录..."
     mkdir -p "$PROJECT_DIR"
@@ -62,7 +62,6 @@ echo "✅ 部署完成!"
 echo ""
 echo "📖 使用说明:"
 echo "  STDIO 模式 (Cherry Studio): uv run python main.py"
-echo "  SSE 模式 (Web服务):        uv run python main_sse.py"
 echo ""
 echo "🔧 Cherry Studio 配置:"
 echo "  命令: uv"
