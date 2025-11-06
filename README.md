@@ -4,6 +4,10 @@
 
 Mermaid MCP Server 是一个基于 Model Context Protocol (MCP) 的 Mermaid 图表转换服务器，为AI客户端提供强大的图表生成能力。该项目的开发初衷是为了提供一个强大的图表生成服务，能够将 Mermaid 图表代码转换为多种格式的图像文件，让用户能够在支持MCP协议的各种AI客户端中轻松生成高质量的图表。
 
+<a href="https://glama.ai/mcp/servers/@wwwzhouhui/mermaid_mcp_server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@wwwzhouhui/mermaid_mcp_server/badge" alt="Mermaid Server MCP server" />
+</a>
+
 **核心功能特性：**
 
 - **多格式输出**：支持 PNG、JPG、SVG、PDF 等多种图像格式
