@@ -32,7 +32,7 @@ Mermaid MCP Server 是一个专业的基于 Model Context Protocol (MCP) 的 Mer
 |---------|---------|--------|------|
 | 图表转换 | Mermaid 代码转图像 | mermaid.ink API | ✅ 稳定 |
 | 多格式输出 | PNG/JPG/SVG/PDF | requests + base64 | ✅ 稳定 |
-| 主题定制 | 4种内置主题 | mermaid.ink | ✅ 稳定 |
+| 主题定制 | 4 种内置主题 | mermaid.ink | ✅ 稳定 |
 | 语法验证 | 实时语法检查 | mermaid-cli | ✅ 稳定 |
 | 示例资源 | 丰富图表示例 | 静态资源 | ✅ 稳定 |
 | 错误处理 | 完善错误提示 | Python 异常处理 | ✅ 稳定 |
@@ -273,8 +273,8 @@ uv run python main.py --sse
 请使用 convert_mermaid_to_image 工具生成一个流程图：
 flowchart TD
     A[开始] --> B{判断条件}
-    B -->|是| C[执行动作1]
-    B -->|否| D[执行动作2]
+    B -->|是 | C[执行动作 1]
+    B -->|否 | D[执行动作 2]
     C --> E[结束]
     D --> E
 ```
@@ -288,10 +288,10 @@ sequenceDiagram
     participant 系统
     participant 数据库
 
-    用户->>系统: 登录请求
-    系统->>数据库: 验证用户
-    数据库-->>系统: 返回结果
-    系统-->>用户: 登录成功
+    用户->>系统：登录请求
+    系统->>数据库：验证用户
+    数据库-->>系统：返回结果
+    系统-->>用户：登录成功
 ```
 
 ### 语法验证示例
@@ -457,7 +457,7 @@ A:
 
 欢迎加入技术交流群，分享你的使用心得和反馈建议：
 
-![技术交流群](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260303214419_166_292.jpg)
+![技术交流群](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310230630_169_292.jpg)
 
 ---
 
